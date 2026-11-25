@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PetDiary{% endblock %} — Дневник питомца</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-logo" href="{% url 'home' %}">🐾 PetDiary</a>
+      <nav class="site-nav">
+        <ul>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'pets:pets_list' %}">Мои питомцы</a></li>
+            <li><a href="{% url 'diary:diary_list' %}">Дневник</a></li>
+            <li><a href="{% url 'care:procedures' %}">Процедуры</a></li>
+            <li><a href="{% url 'advice:advice_list' %}">Советы</a></li>
+            <li><a href="{% url 'assistant:chat' %}">ИИ-помощник</a></li>
+            <li><a href="{% url 'api_root' %}">API</a></li>
+            <li><a href="{% url 'profile_detail' %}">Профиль</a></li>
+            <li><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Выйти</button></form></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Войти</a></li>
+            <li><a href="{% url 'register' %}">Регистрация</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; {% now "Y" %} PetDiary — Дневник питомца. Учебный проект.</p>
+      <p>Владелец: {{ user.get_username|default:"не вошёл" }}{% if user.is_authenticated %} ({% if user.is_staff %}админ{% endif %}){% endif %}</p>
+    </div>
+  </footer>
+
+  {% block scripts %}
+  <script src="{% static 'js/main.js' %}"></script>
+  {% endblock %}
+</body>
+</html>

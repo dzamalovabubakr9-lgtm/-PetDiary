@@ -1,0 +1,18 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ entry.title }}{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ entry.title }}</h1>
+<div class="card">
+  <p><strong>Р”Р°С‚Р°:</strong> {{ entry.date }}</p>
+  <p><strong>РџРёС‚РѕРјРµС†:</strong> {{ entry.pet.name }}</p>
+  <p><strong>РљР°С‚РµРіРѕСЂРёСЏ:</strong> <span class="chip">{{ entry.get_category_display }}</span></p>
+  <p><strong>РћРїРёСЃР°РЅРёРµ:</strong></p>
+  <div class="entry-description">{{ entry.description|default:'вЂ”' }}</div>
+</div>
+<div class="form-actions">
+  <a class="btn" href="{% url 'diary:diary_edit' pk=entry.pk %}">РР·РјРµРЅРёС‚СЊ</a>
+  <a class="btn btn-danger" href="{% url 'diary:diary_delete' pk=entry.pk %}">РЈРґР°Р»РёС‚СЊ</a>
+  <a class="btn" href="{% url 'diary:diary_list' %}">Рљ РґРЅРµРІРЅРёРєСѓ</a>
+</div>
+{% endblock %}
+

@@ -1,0 +1,74 @@
+@H1 УЧЕБНАЯ ПРАКТИКА
+@H2 Практика: 9 Тема — Разработка REST API
+@H2 Тема: 12. Разработка REST API
+@H2 Содержание
+@P Раздел 1. Введение.
+@P Раздел 2. Архитектура DRF.
+@P Раздел 3. Сериализаторы и ViewSet-ы.
+@P Раздел 4. Маршруты и URL-конфигурация.
+@P Раздел 5. Аутентификация и права.
+@P Раздел 6. Обработка ошибок.
+@P Раздел 7. Тестирование API.
+@P Раздел 8. Результаты выполнения.
+@H2 Раздел 1. Введение
+@P Цель практики — выполнение задания «Разработка REST API» по теме «Разработка REST API».
+@H2 Раздел 2. Архитектура DRF
+@P Использованы:
+@LIST:
+- Django REST Framework (3.18).
+- ViewSets (ModelViewSet, ReadOnlyModelViewSet, GenericViewSet).
+- DefaultRouter.
+- APIView для корня API.
+@H2 Раздел 3. Сериализаторы и ViewSet-ы
+@P Созданы сериализаторы (api/serializers.py):
+@LIST:
+- PetSerializer — с display-полями и owner_username.
+- DiaryEntrySerializer — категория + pet_name.
+- VetVisitSerializer — посещения ветеринара.
+- ProcedureSerializer — процедуры.
+- ProcedureLogSerializer — история процедур.
+- AdviceSerializer, AdviceCategorySerializer — советы и категории.
+- UserSerializer — пользователи.
+@P ViewSets:
+@LIST:
+- PetViewSet — CRUD питомцев (только свои).
+- DiaryEntryViewSet — CRUD записей дневника.
+- VetVisitViewSet, ProcedureViewSet — CRUD.
+- AdviceViewSet, AdviceCategoryViewSet — только чтение.
+- UserViewSet — текущий профиль.
+@H2 Раздел 4. Маршруты и URL-конфигурация
+@P Маршруты API (api/urls.py):
+@TABLE:
+| Маршрут | Методы |
+| --- | --- |
+| /api/pets/ | GET/POST |
+| /api/pets/<id>/ | GET/PUT/PATCH/DELETE |
+| /api/diary/ | GET/POST |
+| /api/diary/<id>/ | GET/PUT/PATCH/DELETE |
+| /api/vet-visits/ | GET |
+| /api/care/ | GET/POST |
+| /api/care/<id>/ | GET/PUT/PATCH/DELETE |
+| /api/procedure-logs/ | GET |
+| /api/advice/ | GET |
+| /api/advice-categories/ | GET |
+| /api/users/me/ | GET |
+| /api/ | GET (API root) |
+@H2 Раздел 5. Аутентификация и права
+@P Поддерживаются TokenAuthentication (заголовок «Authorization: Token <key>») и SessionAuthentication.
+@P Доступ: IsAuthenticated по умолчанию; только свои объекты.
+@H2 Раздел 6. Обработка ошибок
+@P Реализованы стандартные ответы DRF: 200/201/204/400/401/403/404/422/500.
+@P APIRootView — страница документации на корне API.
+@H2 Раздел 7. Тестирование API
+@P api/tests.py — тесты:
+@LIST:
+- Аутентификация по Token (CRUD питомцев).
+- Доступ без аутентификации — 401.
+- Доступ только своих питомцев.
+- AdviceViewSet — только чтение (405 на POST).
+@P Результат: все тесты пройдены (api/tests.py).
+@H2 Раздел 8. Результаты выполнения
+@P REST API готов к сдаче.
+@H2 Заключение
+@P Работа выполнена в полном объёме: DRF, сериализаторы, ViewSets, маршруты, тесты — все готовы и проверены.
+@P См. Sequence_PasswordReset.svg — Sequence Diagram.

@@ -1,0 +1,35 @@
+﻿{% extends 'base.html' %}
+{% block title %}РњРѕРё РїРёС‚РѕРјС†С‹{% endblock %}
+{% block content %}
+<h1 class="page-title">РњРѕРё РїРёС‚РѕРјС†С‹</h1>
+<div class="form-actions" style="margin-bottom:16px">
+  <a class="btn" href="{% url 'pets:pet_create' %}">Р”РѕР±Р°РІРёС‚СЊ РїРёС‚РѕРјС†Р°</a>
+  <span class="form-note" style="margin-left:12px">Р’СЃРµРіРѕ: {{ total }}</span>
+</div>
+{% if pets %}
+  <div class="grid">
+    {% for pet in pets %}
+      <a class="card card-link" href="{% url 'pets:pets_detail' pk=pet.pk %}">
+        <h3>{{ pet.name }}</h3>
+        <p class="card-meta">
+          <span class="chip">{{ pet.get_species_display }}</span>
+          {% if pet.breed %}<span class="chip">{{ pet.breed }}</span>{% endif %}
+          {% if pet.weight %}<span class="chip">Р’РµСЃ: {{ pet.weight }} РєРі</span>{% endif %}
+          {% if pet.birth_date %}<span class="chip">Р РѕР¶РґС‘РЅ {{ pet.birth_date }}</span>{% endif %}
+        </p>
+      </a>
+    {% endfor %}
+  </div>
+  {% if page_obj.has_other_pages %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}<a class="btn" href="?page={{ page_obj.previous_page_number }}">&larr; РќР°Р·Р°Рґ</a>{% endif %}
+      <span class="page-num">РЎС‚СЂР°РЅРёС†Р° {{ page_obj.number }} РёР· {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a class="btn" href="?page={{ page_obj.next_page_number }}">Р’РїРµСЂС‘Рґ &rarr;</a>{% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <p class="empty">РЈ РІР°СЃ РїРѕРєР° РЅРµС‚ РїРёС‚РѕРјС†РµРІ.</p>
+  <a class="btn" href="{% url 'pets:pet_create' %}">Р”РѕР±Р°РІРёС‚СЊ РїРµСЂРІРѕРіРѕ РїРёС‚РѕРјС†Р°</a>
+{% endif %}
+{% endblock %}
+

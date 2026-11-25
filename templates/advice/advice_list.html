@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Советы по уходу{% endblock %}
+{% block content %}
+<h1 class="page-title">Советы по уходу</h1>
+<p class="lead">Информационные материалы по питанию, гигиене и профилактике для владельцев.</p>
+{% if advice_items %}
+  {% for item in advice_items %}
+    <article class="card advice-card">
+      <h3><a href="{% url 'advice:advice_detail' pk=item.pk %}">{{ item.title }}</a></h3>
+      <p class="chip chip-category">{{ item.category.name }}</p>
+      <p class="entry-description">{{ item.content|truncatewords:30 }}</p>
+      <a class="btn btn-link" href="{% url 'advice:advice_detail' pk=item.pk %}">Читать</a>
+    </article>
+  {% endfor %}
+  {% if page_obj.has_other_pages %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}<a class="btn" href="?page={{ page_obj.previous_page_number }}">&larr; Назад</a>{% endif %}
+      <span class="page-num">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a class="btn" href="?page={{ page_obj.next_page_number }}">Вперёд &rarr;</a>{% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <p class="empty">Советов пока нет.</p>
+{% endif %}
+{% endblock %}

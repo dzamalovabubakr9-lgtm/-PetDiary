@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Главная — PetDiary{% endblock %}
+{% block content %}
+<h1 class="page-title">Дневник питомца — PetDiary</h1>
+<p class="lead">PetDiary — веб-приложение для владельцев домашних животных: хранение карточек питомцев, дневниковых записей, планирование процедур и получение советов по уходу.</p>
+<div class="home-cards">
+  <div class="card">
+    <h3>🐕 Мои питомцы</h3>
+    <p>Добавляйте и отслеживайте карточки домашних животных: кличка, вид, порода, пол, дата рождения, вес, фотография.</p>
+    {% if user.is_authenticated %}
+      <a class="btn" href="{% url 'pets:pets_list' %}">Открыть список питомцев</a>
+    {% else %}
+      <a class="btn" href="{% url 'login' %}">Войти, чтобы продолжить</a>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h3>📖 Дневник питомца</h3>
+    <p>Создавайте записи о прогулках, поведении, питании и событиях в жизни питомца.</p>
+    {% if user.is_authenticated %}
+      <a class="btn" href="{% url 'diary:diary_list' %}">Открыть дневник</a>
+    {% else %}
+      <a class="btn" href="{% url 'login' %}">Войти, чтобы продолжить</a>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h3>🛁 Уход и процедуры</h3>
+    <p>Планируйте процедуры, отмечайте выполнение, сохраняйте историю.</p>
+    {% if user.is_authenticated %}
+      <a class="btn" href="{% url 'care:procedures' %}">Открыть процедуры</a>
+    {% else %}
+      <a class="btn" href="{% url 'login' %}">Войти, чтобы продолжить</a>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h3>💡 Советы по уходу</h3>
+    <p>Полезные информационные материалы по питанию, гигиене и профилактике.</p>
+    <a class="btn" href="{% url 'advice:advice_list' %}">Открыть советы</a>
+  </div>
+  <div class="card">
+    <h3>🔌 REST API</h3>
+    <p>Программный доступ к сущностям системы: питомцы, дневник, процедуры, советы.</p>
+    <a class="btn" href="{% url 'api_root' %}">Документация API</a>
+  </div>
+</div>
+{% endblock %}

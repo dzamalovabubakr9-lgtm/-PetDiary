@@ -1,0 +1,14 @@
+﻿{% extends 'base.html' %}
+{% block title %}РЈРґР°Р»РµРЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹{% endblock %}
+{% block content %}
+<h1 class="page-title">РЈРґР°Р»РµРЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹</h1>
+<p>РЈРґР°Р»РёС‚СЊ РїСЂРѕС†РµРґСѓСЂСѓ В«{{ procedure.get_name_display }}В»?</p>
+<form method="post" class="form">
+  {% csrf_token %}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-danger">РЈРґР°Р»РёС‚СЊ</button>
+    <a class="btn" href="{% url 'care:procedures' %}">РћС‚РјРµРЅР°</a>
+  </div>
+</form>
+{% endblock %}
+

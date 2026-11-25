@@ -1,0 +1,54 @@
+@H1 УЧЕБНАЯ ПРАКТИКА
+@H2 Практика: 4 Тема — Проектирование и разработка базы данных
+@H2 Тема: 4. Проектирование и разработка базы данных
+@H2 Содержание
+@P Раздел 1. Введение.
+@P Раздел 2. Анализ сущностей.
+@P Раздел 3. ERD.
+@P Раздел 4. DDL-запросы.
+@P Раздел 5. Django-модели.
+@P Раздел 6. Миграции.
+@P Раздел 7. Верификация.
+@H2 Раздел 1. Введение
+@P Цель практики — выполнение задания «Проектирование и разработка базы данных» по теме «Проектирование и разработка базы данных».
+@H2 Раздел 2. Анализ сущностей
+@P Идентифицированы сущности, их атрибуты, первичные ключи, внешние ключи, кардинальности:
+@TABLE:
+| Сущность | Атрибуты | Связи |
+| --- | --- | --- |
+| users | id, username, email, password_hash, phone, role_id | groups (M2M), user_permissions (M2M) |
+| role | id, name, description | users (N:1) |
+| profile | id, user_id, avatar, birthday, about, phone, role_id | users (1:1), role (N:1) |
+| pet | id, owner_id, name, species, breed, sex, birth_date, weight, photo, description | users (1:N), measurement (1:N), diary_entry (1:N), vet_visit (1:N), procedure (1:N) |
+| measurement | id, pet_id, weight, measurement_date, note | pet (1:N) |
+| diary_entry | id, pet_id, date, title, description, category | pet (1:N) |
+| vet_visit | id, pet_id, date, description, recommendations | pet (1:N) |
+| procedure | id, pet_id, name, description, scheduled_date, done, done_at | pet (1:N), procedure_log (1:N) |
+| procedure_log | id, pet_id, procedure_id, name, done_date, comment | pet (1:N), procedure (N:1) |
+| advice_category | id, name, description | advice (N:1) |
+| advice | id, category_id, title, content, is_published | advice_category (N:1) |
+@H2 Раздел 3. ERD
+@P Создана диаграмма Entity-Relationship:
+@P См. ERD_PetDiary.png — диаграмма базы данных PostgreSQL PetDiary: все сущности с FK-связями (1:N), ограничения NOT NULL, уникальность email, FOREIGN KEY для referential integrity.
+@H2 Раздел 4. DDL-запросы
+@P Сгенерированы SQL DDL для создания таблиц: CREATE TABLE users, role, profile, pet, measurement, diary_entry, vet_visit, procedure, procedure_log, advice_category, advice — с FK-ограничениями.
+@H2 Раздел 5. Django-модели
+@P Модели проекта соответствуют ERD:
+@LIST:
+- accounts.User (AbstractUser + phone, groups, user_permissions).
+- accounts.Role (name, description).
+- accounts.Profile (user, avatar, birthday, about, phone, role).
+- pets.Pet (owner FK, name, species, breed, sex, birth_date, weight, photo, description).
+- pets.Measurement (pet FK, weight, measurement_date, note).
+- diary.DiaryEntry (pet FK, date, title, description, category).
+- diary.VetVisit (pet FK, date, description, recommendations).
+- care.Procedure (pet FK, name, description, scheduled_date, done, done_at).
+- care.ProcedureLog (pet FK, procedure FK, name, done_date, comment).
+- advice.AdviceCategory (name, description).
+- advice.Advice (category FK, title, content, is_published).
+@H2 Раздел 6. Миграции
+@P Созданы и применены миграции: accounts.0001_initial, pets.0001_initial, diary.0001_initial, care.0001_initial, advice.0001_initial. Миграции применены без ошибок.
+@H2 Раздел 7. Верификация
+@P База данных проверена: структура моделей соответствует ERD; связи работают (интеграционные тесты пройдены).
+@H2 Заключение
+@P Работа выполнена в полном объёме: ERD, DDL, модели, миграции — подготовлены и верифицированы.

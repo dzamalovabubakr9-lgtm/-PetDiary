@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h1 class="page-title">Вход в PetDiary</h1>
+<form method="post" action="{% url 'login' %}" class="form" autocomplete="off">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <div class="form-group">
+    <label for="{{ form.username.id_for_label }}">Логин</label>
+    {{ form.username }}
+  </div>
+  <div class="form-group">
+    <label for="{{ form.password.id_for_label }}">Пароль</label>
+    {{ form.password }}
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Войти</button>
+  </div>
+</form>
+<p class="form-note"><a href="{% url 'register' %}">Зарегистрироваться</a> — у вас нет аккаунта?</p>
+<p class="form-note"><a href="{% url 'reset_password' %}">Забыли пароль?</a></p>
+{% endblock %}

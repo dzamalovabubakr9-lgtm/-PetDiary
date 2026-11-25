@@ -1,0 +1,40 @@
+﻿{% extends 'base.html' %}
+{% block title %}Р”РЅРµРІРЅРёРє{% endblock %}
+{% block content %}
+<h1 class="page-title">Р”РЅРµРІРЅРёРє РїРёС‚РѕРјС†Р°</h1>
+<div class="form-actions" style="margin-bottom:16px">
+  <a class="btn" href="{% url 'diary:diary_create' %}">РЎРѕР·РґР°С‚СЊ Р·Р°РїРёСЃСЊ</a>
+</div>
+{% if entries %}
+  <table class="table">
+    <thead>
+      <tr><th>Р”Р°С‚Р°</th><th>Р—Р°РіРѕР»РѕРІРѕРє</th><th>РџРёС‚РѕРјРµС†</th><th>РљР°С‚РµРіРѕСЂРёСЏ</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for entry in entries %}
+        <tr>
+          <td>{{ entry.date }}</td>
+          <td><a href="{% url 'diary:diary_detail' pk=entry.pk %}">{{ entry.title }}</a></td>
+          <td>{{ entry.pet.name }}</td>
+          <td><span class="chip">{{ entry.get_category_display }}</span></td>
+          <td>
+            <a class="btn" href="{% url 'diary:diary_edit' pk=entry.pk %}">РР·РјРµРЅРёС‚СЊ</a>
+            <a class="btn btn-danger" href="{% url 'diary:diary_delete' pk=entry.pk %}">РЈРґР°Р»РёС‚СЊ</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if page_obj.has_other_pages %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}<a class="btn" href="?page={{ page_obj.previous_page_number }}">&larr; РќР°Р·Р°Рґ</a>{% endif %}
+      <span class="page-num">РЎС‚СЂР°РЅРёС†Р° {{ page_obj.number }} РёР· {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a class="btn" href="?page={{ page_obj.next_page_number }}">Р’РїРµСЂС‘Рґ &rarr;</a>{% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <p class="empty">Р—Р°РїРёСЃРµР№ РїРѕРєР° РЅРµС‚.</p>
+  <a class="btn" href="{% url 'diary:diary_create' %}">РЎРѕР·РґР°С‚СЊ РїРµСЂРІСѓСЋ Р·Р°РїРёСЃСЊ</a>
+{% endif %}
+{% endblock %}
+

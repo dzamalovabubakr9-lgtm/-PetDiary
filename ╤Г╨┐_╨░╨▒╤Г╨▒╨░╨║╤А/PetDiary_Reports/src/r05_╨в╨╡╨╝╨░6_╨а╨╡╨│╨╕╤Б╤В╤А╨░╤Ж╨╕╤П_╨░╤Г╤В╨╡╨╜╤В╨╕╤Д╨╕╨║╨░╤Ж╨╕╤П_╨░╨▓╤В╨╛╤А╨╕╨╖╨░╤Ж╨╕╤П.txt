@@ -1,0 +1,47 @@
+@H1 УЧЕБНАЯ ПРАКТИКА
+@H2 Практика: 5 Тема — Реализация регистрации, аутентификации, авторизации
+@H2 Тема: 6. Реализация регистрации, аутентификации, авторизации
+@H2 Содержание
+@P Раздел 1. Введение.
+@P Раздел 2. Архитектура аутентификации (Django + DRF).
+@P Раздел 3. Модель User и Role.
+@P Раздел 4. Формы регистрации и входа.
+@P Раздел 5. Вьюшки авторизации (Register, Login, Logout, Profile).
+@P Раздел 6. Изменение пароля.
+@P Раздел 7. Результаты выполнения.
+@H2 Раздел 1. Введение
+@P Цель практики — выполнение задания «Реализация регистрации, аутентификации, авторизации» по теме «Регистрация, аутентификация, авторизация».
+@H2 Раздел 2. Архитектура аутентификации (Django + DRF)
+@P Проведён анализ технологий:
+@LIST:
+- Django (AbstractUser + custom User в accounts), django-cors-headers, django-environ.
+- DRF (TokenAuthentication, SessionAuthentication), django-rest-knox не используется.
+- Flask + Flask-WTF + LoginManager — альтернативный вариант (не выбран).
+@P Выбранный подход: сессионная аутентификация (SessionAuth) для сайта + TokenAuthentication для API.
+@H2 Раздел 3. Модель User и Role
+@P Созданы модели:
+@LIST:
+- accounts.User (AbstractUser + phone).
+- accounts.Role (name, description) — основные роли: user, admin.
+- accounts.Profile (user FK, avatar, birthday, about, phone, role FK) — профиль пользователя.
+@P Механизм защиты: AbstractUser, кастомная user модель, AUTH_USER_MODEL.
+@H2 Раздел 4. Формы регистрации и входа
+@P Созданы формы:
+@LIST:
+- accounts/forms.py: RegistrationForm (username, email, password1, password2), ProfileEditForm (phone, birthday, about, avatar, email).
+- Django's AuthenticationForm для входа.
+@H2 Раздел 5. Вьюшки авторизации
+@P Созданы представления:
+@LIST:
+- RegisterView (CreateView) — создание аккаунта.
+- LoginViewCustom (LoginView) — вход.
+- LogoutViewCustom (LogoutView) — выход.
+- profile_detail — профиль пользователя.
+- ProfileEditView — редактирование профиля.
+- HomeView — главная страница.
+@H2 Раздел 6. Изменение пароля
+@P Реализована смена пароля через PasswordChangeForm + update_session_auth_hash.
+@H2 Раздел 7. Результаты выполнения
+@P Регистрация/вход/выход/смена пароля реализованы и протестированы (accounts/tests.py).
+@H2 Заключение
+@P Работа выполнена в полном объёме: модели, формы, представления, маршруты, шаблоны, тесты подготовлены.

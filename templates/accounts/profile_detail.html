@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<h1 class="page-title">Мой профиль</h1>
+<div class="card">
+  <p><strong>Логин:</strong> {{ profile.user.username }}</p>
+  <p><strong>Email:</strong> {{ profile.user.email|default:'—' }}</p>
+  <p><strong>Телефон:</strong> {{ profile.phone|default:'—' }}</p>
+  <p><strong>Дата рождения:</strong> {{ profile.birthday|default:'—' }}</p>
+  <p><strong>Роль:</strong> {{ profile.role.name|default:'нет роли' }}</p>
+  <p><strong>О себе:</strong> {{ profile.about|default:'' }}</p>
+  {% if profile.avatar %}
+    <img src="{{ profile.avatar.url }}" alt="Аватар" class="avatar">
+  {% endif %}
+</div>
+<div class="form-actions">
+  <a class="btn" href="{% url 'profile_edit' %}">Редактировать профиль</a>
+  <a class="btn" href="{% url 'change_password' %}">Сменить пароль</a>
+</div>
+{% endblock %}

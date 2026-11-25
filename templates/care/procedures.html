@@ -1,0 +1,35 @@
+﻿{% extends 'base.html' %}
+{% block title %}РџСЂРѕС†РµРґСѓСЂС‹{% endblock %}
+{% block content %}
+<h1 class="page-title">РџСЂРѕС†РµРґСѓСЂС‹ Рё СѓС…РѕРґ</h1>
+<div class="form-actions" style="margin-bottom:16px">
+  <a class="btn" href="{% url 'care:procedure_create' %}">Р”РѕР±Р°РІРёС‚СЊ РїСЂРѕС†РµРґСѓСЂСѓ</a>
+</div>
+{% if procedures %}
+  <h2 class="section-title">РџСЂРµРґСЃС‚РѕСЏС‰РёРµ</h2>
+  {% for proc in upcoming %}
+    <div class="card"><strong><a href="{% url 'care:procedure_detail' pk=proc.pk %}">{{ proc.get_name_display }}</a></strong> вЂ” {{ proc.pet.name }}, {{ proc.scheduled_date }}</div>
+  {% endfor %}
+  <h2 class="section-title">РЎРїРёСЃРѕРє</h2>
+  <table class="table">
+    <thead><tr><th>Р”Р°С‚Р°</th><th>РџРёС‚РѕРјРµС†</th><th>РџСЂРѕС†РµРґСѓСЂР°</th><th>РЎС‚Р°С‚СѓСЃ</th><th></th></tr></thead>
+    <tbody>
+      {% for proc in procedures %}
+        <tr>
+          <td>{{ proc.scheduled_date }}</td>
+          <td><a href="{% url 'pets:pets_detail' pk=proc.pet.pk %}">{{ proc.pet.name }}</a></td>
+          <td><a href="{% url 'care:procedure_detail' pk=proc.pk %}">{{ proc.get_name_display }}</a></td>
+          <td>{% if proc.done %}<span class="chip chip-done">Р’С‹РїРѕР»РЅРµРЅР°</span>{% else %}<span class="chip">РџР»Р°РЅ</span>{% endif %}</td>
+          <td>
+            <a class="btn" href="{% url 'care:procedure_edit' pk=proc.pk %}">РР·РјРµРЅРёС‚СЊ</a>
+            <a class="btn btn-danger" href="{% url 'care:procedure_delete' pk=proc.pk %}">РЈРґР°Р»РёС‚СЊ</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty">РџСЂРѕС†РµРґСѓСЂ РїРѕРєР° РЅРµС‚. Р”РѕР±Р°РІСЊС‚Рµ РїРµСЂРІСѓСЋ РїСЂРѕС†РµРґСѓСЂСѓ.</p>
+{% endif %}
+{% endblock %}
+

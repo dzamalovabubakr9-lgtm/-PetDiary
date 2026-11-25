@@ -1,0 +1,30 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ procedure.get_name_display }}{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ procedure.get_name_display }}</h1>
+<div class="card">
+  <p><strong>РџРёС‚РѕРјРµС†:</strong> <a href="{% url 'pets:pets_detail' pk=procedure.pet.pk %}">{{ procedure.pet.name }}</a></p>
+  <p><strong>Р”Р°С‚Р° РїР»Р°РЅРёСЂРѕРІР°РЅРёСЏ:</strong> {{ procedure.scheduled_date }}</p>
+  <p><strong>РЎС‚Р°С‚СѓСЃ:</strong> {% if procedure.done %}<span class="chip chip-done">Р’С‹РїРѕР»РЅРµРЅР°{% if procedure.done_at %} ({{ procedure.done_at }}){% endif %}</span>{% else %}<span class="chip">РќРµ РІС‹РїРѕР»РЅРµРЅР°</span>{% endif %}</p>
+  <p><strong>РћРїРёСЃР°РЅРёРµ:</strong> {{ procedure.description|default:'вЂ”' }}</p>
+</div>
+<h2 class="section-title">РСЃС‚РѕСЂРёСЏ</h2>
+{% if logs %}
+  <table class="table">
+    <thead><tr><th>Р”Р°С‚Р°</th><th>РљРѕРјРјРµРЅС‚Р°СЂРёР№</th></tr></thead>
+    <tbody>
+      {% for log in logs %}
+        <tr><td>{{ log.done_date }}</td><td>{{ log.comment|default:'вЂ”' }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty">РСЃС‚РѕСЂРёРё РїРѕРєР° РЅРµС‚.</p>
+{% endif %}
+<div class="form-actions">
+  <a class="btn" href="{% url 'care:procedure_edit' pk=procedure.pk %}">РР·РјРµРЅРёС‚СЊ</a>
+  <a class="btn btn-danger" href="{% url 'care:procedure_delete' pk=procedure.pk %}">РЈРґР°Р»РёС‚СЊ</a>
+  <a class="btn" href="{% url 'care:procedures' %}">Рљ СЃРїРёСЃРєСѓ</a>
+</div>
+{% endblock %}
+

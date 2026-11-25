@@ -1,0 +1,48 @@
+@H1 УЧЕБНАЯ ПРАКТИКА
+@H2 Практика: 6 Тема — Механизм восстановления пароля по электронной почте
+@H2 Тема: 7. Механизм восстановления пароля по электронной почте
+@H2 Содержание
+@P Раздел 1. Введение.
+@P Раздел 2. Модель PasswordResetToken.
+@P Раздел 3. Форма ForgetPasswordForm.
+@P Раздел 4. Функция create_reset_token.
+@P Раздел 5. Представления и маршруты.
+@P Раздел 6. Настройка SMTP.
+@P Раздел 7. Результаты выполнения.
+@H2 Раздел 1. Введение
+@P Цель практики — выполнение задания «Механизм восстановления пароля по почте» по теме «Механизм восстановления пароля по электронной почте».
+@H2 Раздел 2. Модель PasswordResetToken
+@P Создана модель accounts.PasswordResetToken (petdiary\accounts\models.py):
+@LIST:
+- user FK → User (on_delete=CASCADE).
+- token_hash CharField (64) — SHA-256 хэш.
+- expires DateTimeField — время истечения (30 минут).
+- created_at DateTimeField (auto_now_add).
+@P Метод is_valid() — проверка времени истечения.
+@H2 Раздел 3. Форма ForgetPasswordForm
+@P Создана форма (accounts/forms.py):
+@LIST:
+- Поле email.
+- clean_email(): проверка валидности email в БД; если нет пользователя — ошибка.
+@H2 Раздел 4. Функция create_reset_token
+@P Создана функция create_reset_token(user):
+@LIST:
+- raw_token = secret.token_urlsafe(32) — случайный токен.
+- hashed_token = hashlib.sha256(raw_token.encode()).hexdigest().
+- Создание PasswordResetToken(user, token_hash, expires=now+30min).
+- Сохранение в БД.
+@P См. схему: см. Sequence_PasswordReset.svg — Sequence Diagram восстановления пароля.
+@H2 Раздел 5. Представления и маршруты
+@P Созданы маршруты:
+@LIST:
+- /forgot-password/ — ForgetPasswordForm (GET/POST), отправка письма.
+- /reset-password/<token>/ — ResetPasswordForm (GET/POST), подтверждение токена и смена пароля.
+- /reset-password/complete/ — подтверждение.
+@P Представления: ForgetPasswordView, ResetPasswordView, ResetPasswordConfirmView — с использованием кастомных классов на базе Django и DRF.
+@H2 Раздел 6. Настройка SMTP
+@P Настроены EMAIL_BACKEND, EMAIL_HOST, EMAIL_PORT, EMAIL_USE_SSL в settings.py.
+@P В тестовом режиме используется консольный бэкенд (EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend').
+@H2 Раздел 7. Результаты выполнения
+@P Процесс восстановления пароля реализован и протестирован (accounts/tests.py).
+@H2 Заключение
+@P Работа выполнена в полном объёме: модель, формы, функции, маршруты, настройка SMTP, схема — подготовлены.

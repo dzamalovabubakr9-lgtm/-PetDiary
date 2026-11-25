@@ -1,0 +1,37 @@
+@H1 УЧЕБНАЯ ПРАКТИКА
+@H2 Практика: 7 Тема — Разграничение прав доступа
+@H2 Тема: 8. Разграничение прав доступа
+@H2 Содержание
+@P Раздел 1. Введение.
+@P Раздел 2. RBAC и Django REST Framework.
+@P Раздел 3. Права доступа к данным.
+@P Раздел 4. Декораторы прав (IsAdminRole).
+@P Раздел 5. Защита эндпоинтов DRF.
+@H2 Раздел 1. Введение
+@P Цель практики — выполнение задания «Разграничение прав доступа» по теме «Разграничение прав доступа».
+@H2 Раздел 2. RBAC и Django REST Framework
+@P Проведён анализ подходов к управлению правами:
+@LIST:
+- Django: django.contrib.auth Groups и Permissions.
+- DRF: BasePermission, IsAuthenticatedOrReadOnly.
+@P Выбранный подход: RBAC через Role модель + DRF permission classes.
+@H2 Раздел 3. Права доступа к данным
+@P Реализована защита данных пользователей:
+@LIST:
+- Pet.objects.filter(owner=request.user) — все списки и детали питомцев — только их владельцы.
+- diary_entries.filter(pet__owner=request.user).
+- procedures.filter(pet__owner=request.user).
+- vet_visits.filter(pet__owner=request.user).
+@P Доступ к чужим данным — блокируется (404/403).
+@H2 Раздел 4. Декораторы прав (IsAdminRole)
+@P Создан декоратор accounts.decorators.role_required:
+@P @role_required(['admin']) — проверка request.user.role.name; 403 при ошибке; staff и superuser — админ.
+@H2 Раздел 5. Защита эндпоинтов DRF
+@P DRF:
+@LIST:
+- Все конечные точки — IsAuthenticated по умолчанию.
+- AdviceViewSet — ReadOnlyModelViewSet (только чтение).
+- UserViewSet — только свой профиль (get_queryset = User.objects.filter(pk=request.user.pk)).
+- PetViewSet — только свои питомцы.
+@H2 Заключение
+@P Работа выполнена в полном объёме: RBAC, защита данных, DRF-права — подготовлены и протестированы.

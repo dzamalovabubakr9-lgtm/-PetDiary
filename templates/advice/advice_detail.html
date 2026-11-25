@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{{ advice_item.title }}{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ advice_item.title }}</h1>
+<div class="card">
+  <p><strong>Категория:</strong> <span class="chip">{{ advice_item.category.name }}</span></p>
+  <p><strong>Материал:</strong></p>
+  <div class="entry-description">{{ advice_item.content|safe }}</div>
+</div>
+<p class="form-note"><a href="{% url 'advice:advice_list' %}">&larr; К списку советов</a></p>
+{% endblock %}

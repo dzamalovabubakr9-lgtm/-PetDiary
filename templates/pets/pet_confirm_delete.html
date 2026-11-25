@@ -1,0 +1,14 @@
+﻿{% extends 'base.html' %}
+{% block title %}РЈРґР°Р»РµРЅРёРµ РїРёС‚РѕРјС†Р°{% endblock %}
+{% block content %}
+<h1 class="page-title">РЈРґР°Р»РµРЅРёРµ РїРёС‚РѕРјС†Р°</h1>
+<p>Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ РїРёС‚РѕРјС†Р° <strong>{{ pet.name }}</strong>? Р”Р°РЅРЅРѕРµ РґРµР№СЃС‚РІРёРµ РЅРµР»СЊР·СЏ РѕС‚РјРµРЅРёС‚СЊ.</p>
+<form method="post" class="form">
+  {% csrf_token %}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-danger">РЈРґР°Р»РёС‚СЊ</button>
+    <a class="btn" href="{% url 'pets:pets_list' %}">РћС‚РјРµРЅР°</a>
+  </div>
+</form>
+{% endblock %}
+

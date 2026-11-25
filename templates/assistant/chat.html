@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}ИИ-помощник — PetDiary{% endblock %}
+{% block content %}
+<section class="container">
+  <h1>ИИ-помощник PetDiary</h1>
+  <p>Помощник учитывает список ваших питомцев и историю текущего диалога. Не заменяет консультацию ветеринара.</p>
+  <div id="chat-log" aria-live="polite" class="chat-log">
+    {% for item in messages %}<article class="chat-message"><strong>{% if item.role == 'user' %}Вы{% else %}Помощник{% endif %}:</strong><p>{{ item.content|linebreaksbr }}</p></article>{% empty %}<p>Задайте вопрос об уходе за питомцем.</p>{% endfor %}
+  </div>
+  <form id="chat-form">
+    {% csrf_token %}
+    <label for="chat-message">Ваш вопрос</label>
+    <textarea id="chat-message" maxlength="4000" required rows="3"></textarea>
+    <button type="submit">Отправить</button>
+    <p id="chat-error" role="alert"></p>
+  </form>
+</section>
+<script>
+(function () {
+ const form = document.getElementById('chat-form');
+ const input = document.getElementById('chat-message');
+ const log = document.getElementById('chat-log');
+ const error = document.getElementById('chat-error');
+ const token = form.querySelector('[name=csrfmiddlewaretoken]').value;
+ const conversation = {{ conversation.pk }};
+ form.addEventListener('submit', async function (event) {
+   event.preventDefault(); error.textContent = '';
+   const message = input.value.trim(); if (!message) return;
+   const user = document.createElement('article'); user.className = 'chat-message';
+   const label = document.createElement('strong'); label.textContent = 'Вы:';
+   const body = document.createElement('p'); body.textContent = message;
+   user.append(label, body); log.append(user); input.value = '';
+   try {
+     const response = await fetch('', {method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':token}, body:JSON.stringify({message, conversation})});
+     const data = await response.json();
+     if (!response.ok) throw new Error(data.error || 'Ошибка запроса');
+     const item = document.createElement('article'); item.className = 'chat-message';
+     const title = document.createElement('strong'); title.textContent = 'Помощник:';
+     const answer = document.createElement('p'); answer.textContent = data.answer;
+     item.append(title, answer); log.append(item);
+   } catch (e) { error.textContent = e.message; }
+ });
+})();
+</script>
+{% endblock %}

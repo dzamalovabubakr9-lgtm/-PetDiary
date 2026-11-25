@@ -1,0 +1,36 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ pet.name }}{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ pet.name }}</h1>
+<div class="card">
+  <p><strong>Р’РёРґ:</strong> {{ pet.get_species_display }}</p>
+  <p><strong>РџРѕСЂРѕРґР°:</strong> {{ pet.breed|default:'вЂ”' }}</p>
+  <p><strong>РџРѕР»:</strong> {{ pet.get_sex_display }}</p>
+  <p><strong>Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ:</strong> {{ pet.birth_date|default:'вЂ”' }}</p>
+  <p><strong>Р’РµСЃ:</strong> {{ pet.weight|default:'вЂ”' }} РєРі</p>
+  {% if pet.photo %}
+    <p><img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="pet-photo"></p>
+  {% endif %}
+  <p><strong>РћРїРёСЃР°РЅРёРµ:</strong> {{ pet.description|default:'вЂ”' }}</p>
+  <p><strong>Р’Р»Р°РґРµР»РµС†:</strong> {{ pet.owner.username }}</p>
+</div>
+<h2 class="section-title">РР·РјРµСЂРµРЅРёСЏ</h2>
+{% if measurements %}
+  <table class="table">
+    <thead><tr><th>Р”Р°С‚Р°</th><th>Р’РµСЃ</th><th>РџСЂРёРјРµС‡Р°РЅРёРµ</th></tr></thead>
+    <tbody>
+      {% for m in measurements %}
+        <tr><td>{{ m.measurement_date }}</td><td>{{ m.weight }}</td><td>{{ m.note|default:'вЂ”' }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty">РР·РјРµСЂРµРЅРёР№ РїРѕРєР° РЅРµС‚.</p>
+{% endif %}
+<div class="form-actions">
+  <a class="btn" href="{% url 'pets:pet_edit' pk=pet.pk %}">Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ</a>
+  <a class="btn btn-danger" href="{% url 'pets:pet_delete' pk=pet.pk %}">РЈРґР°Р»РёС‚СЊ</a>
+  <a class="btn" href="{% url 'pets:pets_list' %}">Рљ СЃРїРёСЃРєСѓ</a>
+</div>
+{% endblock %}
+
